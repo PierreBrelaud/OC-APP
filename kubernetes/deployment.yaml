@@ -40,4 +40,3 @@ spec:
               name: cloudant
               key: password
               optional: true
-
