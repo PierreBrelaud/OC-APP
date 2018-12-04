@@ -1,29 +1,46 @@
-html {
+/***********************
+      VARIABLES
+***********************/
+
+:root {
+  --main-font: 'Lato', Arial, sans-serif;
 }
+
+
+
+
 body {
+  min-height: 100vh;
+  font-family: var(--main-font);
+  font-size: 16px;
 }
-.footer {
-
-}
-.helloInput {
-}
-
 
 /***********************
       NAVIGATION
 ***********************/
 
-#navigation {
-  position: fixed;
-  left: 0;
-  width: 20%;
-  height: 100vh;
-  background: red;
+.nav {
+  width: 100vw;
+  height: 80px;
+  background: #2c3e50;
+  display: flex;
+  padding: 0 40px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-#content {
-  background: yellow;
-  height: 100vh;
-  width: 80%;
-  margin-left: 20%;
+.nav > .menu {
+  display: flex;
+}
+
+.nav > .menu .item {
+  padding: 0 15px;
+}
+
+
+.nav a{
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
 }
