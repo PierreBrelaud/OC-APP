@@ -65,7 +65,8 @@ def get_visitor():
                     datas["datas"].append({
                         "t" : document["data"]["t"],
                         "h" : document["data"]["h"],
-                        "d" : document["data"]["d"]
+                        "d" : document["data"]["d"],
+                        "time": document["timestamp"]
                     })
         except:
             print("end")
