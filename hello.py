@@ -17,7 +17,7 @@ if 'VCAP_SERVICES' in os.environ:
         creds = vcap['cloudantNoSQLDB'][0]['credentials']
         user = creds['username']
         password = creds['password']
-        url = 'https://' + creds['host' ]
+        url = 'https://' + creds['host']
         client = Cloudant(user, password, url=url, connect=True)
         db = client.create_database(db_name, throw_on_exists=False)
 elif "CLOUDANT_URL" in os.environ:
@@ -51,7 +51,11 @@ def root():
 @app.route('/api/visitors', methods=['GET'])
 def get_visitor():
     if client:
-        return jsonify(list(map(lambda doc: doc['name'], db)))
+        print(client)
+        try:
+            return jsonify(list(map(lambda doc: doc['name'], db)))
+        except Exception as e:
+            print(e.args)
     else:
         print('No database')
         return jsonify([])
