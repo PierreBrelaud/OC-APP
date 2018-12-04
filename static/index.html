@@ -23,6 +23,8 @@
     <script src="js/lib/jquery.i18n/jquery.i18n.emitter.js"></script>
     <script src="js/lib/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
     <script src="antixss.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="./main.js"></script>
 
     <script>
         $( document ).ready(function() {
@@ -63,6 +65,10 @@
         </div>
       </nav>
     </header>
+
+    <div class="container">
+      <canvas id="tempChart"></canvas>
+    </div>
 
     <div class="container" id="container">
         <h1 data-i18n="welcome"></h1> <!- Welcome ->
