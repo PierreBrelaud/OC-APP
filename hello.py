@@ -19,7 +19,11 @@ if 'VCAP_SERVICES' in os.environ:
         password = creds['password']
         url = 'https://' + creds['host']
         client = Cloudant(user, password, url=url, connect=True)
+        print(client)
         db = client.create_database(db_name, throw_on_exists=False)
+        print(db)
+    else:
+        print("No cloudant sql found")
 elif "CLOUDANT_URL" in os.environ:
     client = Cloudant(os.environ['CLOUDANT_USERNAME'], os.environ['CLOUDANT_PASSWORD'], url=os.environ['CLOUDANT_URL'], connect=True)
     db = client.create_database(db_name, throw_on_exists=False)
@@ -33,6 +37,9 @@ elif os.path.isfile('vcap-local.json'):
         url = 'https://' + creds['host']
         client = Cloudant(user, password, url=url, connect=True)
         db = client.create_database(db_name, throw_on_exists=False)
+
+print(db)
+print(client)
 
 # On IBM Cloud Cloud Foundry, get the port number from the environment variable PORT
 # When running this app on the local machine, default the port to 8000
@@ -53,9 +60,12 @@ def get_visitor():
     if client:
         print(client)
         try:
-            return jsonify(list(map(lambda doc: doc['name'], db)))
+            res = jsonify(list(map(lambda doc: doc['name'], db)))
+            return res
+            #return jsonify(client)
         except Exception as e:
             print(e.args)
+            return jsonify({"msg":e.args})
     else:
         print('No database')
         return jsonify([])

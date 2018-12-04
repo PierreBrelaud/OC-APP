@@ -120,6 +120,7 @@
           console.log("Enter get names");
           $.get("./api/visitors")
               .done(function(data) {
+                  console.log(data)
                   if(data.length > 0) {
                     data.forEach(function(element, index) {
                       data[index] = AntiXSS.sanitizeInput(element)
