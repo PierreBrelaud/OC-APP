@@ -6,7 +6,7 @@ import json
 
 app = Flask(__name__, static_url_path='')
 
-db_name = 'mydb'
+db_name = 'iotp_4i092j_data_2018-12-04'
 client = None
 db = None
 
@@ -19,11 +19,7 @@ if 'VCAP_SERVICES' in os.environ:
         password = creds['password']
         url = 'https://' + creds['host']
         client = Cloudant(user, password, url=url, connect=True)
-        print(client)
         db = client.create_database(db_name, throw_on_exists=False)
-        print(db)
-    else:
-        print("No cloudant sql found")
 elif "CLOUDANT_URL" in os.environ:
     client = Cloudant(os.environ['CLOUDANT_USERNAME'], os.environ['CLOUDANT_PASSWORD'], url=os.environ['CLOUDANT_URL'], connect=True)
     db = client.create_database(db_name, throw_on_exists=False)
@@ -37,9 +33,6 @@ elif os.path.isfile('vcap-local.json'):
         url = 'https://' + creds['host']
         client = Cloudant(user, password, url=url, connect=True)
         db = client.create_database(db_name, throw_on_exists=False)
-
-print(db)
-print(client)
 
 # On IBM Cloud Cloud Foundry, get the port number from the environment variable PORT
 # When running this app on the local machine, default the port to 8000
@@ -55,17 +48,28 @@ def root():
 # *     "name": "Bob"
 # * }
 # */
+
 @app.route('/api/visitors', methods=['GET'])
 def get_visitor():
     if client:
-        print(client)
+        datas = {
+            "datas" : []
+        }
+        count = 0
         try:
-            res = jsonify(list(map(lambda doc: doc['name'], db)))
-            return res
-            #return jsonify(client)
-        except Exception as e:
-            print(e.args)
-            return jsonify({"msg":e.args})
+            for document in db:
+                count = count + 1
+                print(document)
+                if ("timestamp" in document and "data" in document and "t" in document["data"]):
+                    print(count, document["data"])
+                    datas["datas"].append({
+                        "t" : document["data"]["t"],
+                        "h" : document["data"]["h"],
+                        "d" : document["data"]["d"]
+                    })
+        except:
+            print("end")
+        return jsonify(datas)
     else:
         print('No database')
         return jsonify([])
